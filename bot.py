@@ -155,6 +155,40 @@ def reply():
         store_last_seen(tweet.id)
 
 
+def dm_reply():
+    last_seen = int(client.get('dm_seen_2'))
+    if not last_seen:
+        last_seen = 12345678
+    messages = api.list_direct_messages(last_seen)
+    for message in reversed(messages):
+        sender_id = message.message_create['sender_id']
+        if sender_id != '1194862090990710784':
+            text = message.message_create['message_data']['text']
+            print(text)
+            if check_dm(text.lower()):
+                github_dm(sender_id)
+        last_seen = message.id
+    client.set('dm_seen_2', str(last_seen))
+
+
+def check_dm(text):
+    if 'yes' in text.lower() or 'yea' in text.lower() or 'send it' in text.lower() or 'yep' in text.lower():
+        return True
+    return False
+
+
+def github_dm(sender_id):
+    if client.sismember('sent_dm_2', str(sender_id)):
+        print("DM from someone who already has link!")
+        return
+    client.sadd('sent_dm_2', str(sender_id))
+    to_string = "\nAwesome, here is the link! If you have any questions about anything you can either create an issue within github or message me here! :)\n" + \
+        "https://github.com/abspen1"
+    api.send_direct_message(sender_id, to_string)
+    client.incr('github_dms_2')
+    num = int(client.get('github_dms_2'))
+    print(f"Sent github dm : {num}")
+
 def searchBot():
     tweets = tweepy.Cursor(api.search, "#lebronjames").items(50)
     print("Running #lebronjames search.")
@@ -389,7 +423,8 @@ def thank_new_followers():
         for follower in new_followers:
             if not trouble:
                 try:
-                    to_string = "Thanks for the follow! Also, follow @InternTendie for a follow back!"
+                    to_string = "\nAppreciate you following me! If you're interested in programming or if you'd like to create a twitter bot of your own, I can send you a link to my github!\n" + \
+                        "If your next message has 'yes' anywhere in it I will send you a link!"
                     api.send_direct_message(follower, to_string)
                 except tweepy.TweepError as e:
                     if e.reason[:13] == "[{'code': 226":
@@ -404,7 +439,7 @@ def thank_new_followers():
         new_total_followers = client.scard('thanked_followers')
         total_followers = new_total_followers - total_followers
         print(f"Bottimus has {total_followers} new followers. Total of {new_total_followers} followers.")
-
+    dm_reply()
 
 def gain_tweet():
     try:
@@ -423,10 +458,11 @@ def gain_tweet():
 print(time.ctime())
 #schedule.every(20).minutes.do(reply)
 schedule.every(8).minutes.do(thank_new_followers)
-schedule.every(180).seconds.do(retweet_tendie)
-schedule.every(45).minutes.do(handles_reply)
+schedule.every(10).minutes.do(dm_reply)
+# schedule.every(180).seconds.do(retweet_tendie)
+schedule.every(200).minutes.do(handles_reply)
 schedule.every().hour.do(ifb_bot)
-schedule.every(2).hours.do(gain_tweet)
+# schedule.every(2).hours.do(gain_tweet)
 schedule.every().day.at("02:23").do(searchBot)
 schedule.every().day.at("04:23").do(searchBot2)
 schedule.every().day.at("06:23").do(searchBot3)
