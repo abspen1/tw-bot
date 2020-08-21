@@ -157,8 +157,6 @@ def reply():
 
 def dm_reply():
     last_seen = int(client.get('dm_seen_2'))
-    if not last_seen:
-        last_seen = 12345678
     messages = api.list_direct_messages(last_seen)
     for message in reversed(messages):
         sender_id = message.message_create['sender_id']
