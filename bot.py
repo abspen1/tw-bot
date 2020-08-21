@@ -160,7 +160,8 @@ def dm_reply():
     messages = api.list_direct_messages(last_seen)
     for message in reversed(messages):
         sender_id = message.message_create['sender_id']
-        if sender_id != '1194862090990710784':
+        ## moving this if statement for quicker runtime ;]
+        if not client.sismember('sent_dm_2', str(sender_id)):
             text = message.message_create['message_data']['text']
             print(text)
             if check_dm(text.lower()):
@@ -176,15 +177,13 @@ def check_dm(text):
 
 
 def github_dm(sender_id):
-    if client.sismember('sent_dm_2', str(sender_id)):
-        print("DM from someone who already has link!")
-        return
     client.sadd('sent_dm_2', str(sender_id))
     to_string = "\nAwesome, here is the link! If you have any questions about anything you can either create an issue within github or message me here! :)\n" + \
         "https://github.com/abspen1"
     api.send_direct_message(sender_id, to_string)
-    client.incr('github_dms_2')
-    num = int(client.get('github_dms_2'))
+
+    # Subtract one here since I added my ID to ignore also
+    num = client.scard('sent_dm_2') - 1
     print(f"Sent github dm : {num}")
 
 def searchBot():
