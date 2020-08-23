@@ -171,7 +171,7 @@ def dm_reply():
 
 
 def check_dm(text):
-    if 'yes' in text.lower() or 'yea' in text.lower() or 'send it' in text.lower() or 'yep' in text.lower():
+    if 'yes' in text.lower() or 'yea' in text.lower() or 'send it' in text.lower() or 'yep' in text.lower() or 'sure' in text.lower() or 'ya' in text.lower():
         return True
     return False
 
