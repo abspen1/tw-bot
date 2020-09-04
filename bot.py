@@ -178,8 +178,8 @@ def check_dm(text):
 
 def github_dm(sender_id):
     client.sadd('sent_dm_2', str(sender_id))
-    to_string = "\nAwesome, here is the link! If you have any questions about anything you can either create an issue within github or message me here! :)\n" + \
-        "https://github.com/abspen1"
+    to_string = "\nAwesome, here is the link! Let me know what you think!\n" + \
+        "https://abspen1.github.io/twitter-bot/"
     api.send_direct_message(sender_id, to_string)
 
     # Subtract one here since I added my ID to ignore also
@@ -420,7 +420,7 @@ def thank_new_followers():
         for follower in new_followers:
             if not trouble:
                 try:
-                    to_string = "\nAppreciate you following me! If you're interested in programming or if you'd like to create a twitter bot of your own, I can send you a link to my github!\n" + \
+                    to_string = "\nAppreciate you following me! I am a fully automated twitter account. If you're interested in programming or if you'd like to create an automated twitter account of your own, I can send you a link to my twitter-bot WebPage!\n" + \
                         "If your next message has 'yes' anywhere in it I will send you a link!"
                     api.send_direct_message(follower, to_string)
                 except tweepy.TweepError as e:
