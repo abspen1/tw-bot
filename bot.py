@@ -418,21 +418,22 @@ def thank_new_followers():
         trouble = False
         # print("Thanking new followers.")
         for follower in new_followers:
-            if not trouble:
-                try:
-                    to_string = "\nAppreciate you following me! I am a fully automated twitter account. If you're interested in programming or if you'd like to create an automated twitter account of your own, I can send you a link to my twitter-bot WebPage!\n" + \
-                        "If your next message has 'yes' anywhere in it I will send you a link!"
-                    api.send_direct_message(follower, to_string)
-                except tweepy.TweepError as e:
-                    if e.reason[:13] == "[{'code': 226":
-                            print("They think this is spam...")
-                            trouble = True
-                    else:
-                        print(e.reason)
-                client.sadd('thanked_followers', str(follower))
-                time.sleep(3)
-            else:
-                client.sadd('thanked_followers', str(follower))
+            client.sadd('thanked_followers', str(follower))
+        #     if not trouble:
+        #         try:
+        #             to_string = "\nAppreciate you following me! I am a fully automated twitter account. If you're interested in programming or if you'd like to create an automated twitter account of your own, I can send you a link to my twitter-bot WebPage!\n" + \
+        #                 "If your next message has 'yes' anywhere in it I will send you a link!"
+        #             api.send_direct_message(follower, to_string)
+        #         except tweepy.TweepError as e:
+        #             if e.reason[:13] == "[{'code': 226":
+        #                     print("They think this is spam...")
+        #                     trouble = True
+        #             else:
+        #                 print(e.reason)
+        #         client.sadd('thanked_followers', str(follower))
+        #         time.sleep(3)
+        #     else:
+        #         client.sadd('thanked_followers', str(follower))
         new_total_followers = client.scard('thanked_followers')
         total_followers = new_total_followers - total_followers
         print(f"Bottimus has {total_followers} new followers. Total of {new_total_followers} followers.")
@@ -455,7 +456,7 @@ def gain_tweet():
 print(time.ctime())
 #schedule.every(20).minutes.do(reply)
 schedule.every(8).minutes.do(thank_new_followers)
-schedule.every(10).minutes.do(dm_reply)
+# schedule.every(10).minutes.do(dm_reply)
 # schedule.every(180).seconds.do(retweet_tendie)
 schedule.every(200).minutes.do(handles_reply)
 schedule.every().hour.do(ifb_bot)
