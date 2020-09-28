@@ -19,7 +19,11 @@ client = redis.Redis(host="10.10.10.1", port=6379,
                      password=os.getenv("REDIS_PASS"))
 #api.update_status('Hello from Bottimus2. This is my second tweet!')
 
+### Global Variables
+tweets_read = int(client.get("tendie_read"))
+
 def auto_follow():
+    client.incr('tendie_read', 100)
     # terms = ["python", "programming", "basketball", "sports", "stock", "followback", "follow back"]
     query = "ifb"
     print(f"Following users who have tweeted about the {query}")
@@ -104,13 +108,13 @@ def unfollow():
 
 
 def retweet_tendie():  
-    # tally = 0
+    tally = 0
     client = redis.Redis(host="10.10.10.1", port=6379,
                          password=os.getenv("REDIS_PASS"))
     tweet_id = int(client.get('since_id'))
     tweets = api.home_timeline(since_id=tweet_id, include_rts=1, count=200)
     for tweet in reversed(tweets):
-        # tally += 1
+        tally += 1
         try:
             if tweet.user.screen_name == 'InternTendie' or tweet.user.screen_name == 'CalendarKy':
                 # print(f"We got here at {tally}")
@@ -123,6 +127,7 @@ def retweet_tendie():
             print(e.reason)
         time.sleep(2)
         client.set('since_id', tweet.id)
+    client.incr('tendie_read', tally)
 
 
 def read_last_seen():
@@ -144,6 +149,7 @@ def store_last_seen(last_seen):
 def reply():
     # print("Checking for any mentions")
     # print(time.ctime())
+    tally = 0
     tweets = api.mentions_timeline(read_last_seen(), tweet_mode='extended')
     for tweet in reversed(tweets):
         print("Replied to ID - " + str(tweet.id) + " - " + tweet.full_text)
@@ -152,6 +158,7 @@ def reply():
         #api.retweet(tweet.id)
         api.create_favorite(tweet.id)
         store_last_seen(tweet.id)
+    client.incr('tendie_read', tally)
 
 
 def dm_reply():
@@ -186,6 +193,7 @@ def github_dm(sender_id):
     print(f"Sent github dm : {num}")
 
 def searchBot():
+    client.incr('tendie_read', 50)
     tweets = tweepy.Cursor(api.search, "#lebronjames").items(50)
     print("Running #lebronjames search.")
     print(time.ctime())
@@ -204,6 +212,7 @@ def searchBot():
 
 
 def searchBot2():
+    client.incr('tendie_read', 200)
     tweets = tweepy.Cursor(api.search, "nba").items(200)
     print("Running nba search.")
     print(time.ctime())
@@ -222,6 +231,7 @@ def searchBot2():
 
 
 def searchBot3():
+    client.incr('tendie_read', 250)
     tweets = tweepy.Cursor(api.search, "lakers").items(250)
     print("Running laker search.")
     print(time.ctime())
@@ -240,6 +250,7 @@ def searchBot3():
 
 
 def ifb_bot():
+    client.incr('tendie_read', 250)
     tweets = tweepy.Cursor(api.search, "ifb").items(250)
     print("Running ifb search.")
     i = 0
@@ -256,6 +267,7 @@ def ifb_bot():
 
 
 def handles_reply():
+    client.incr('tendie_read', 200)
     tweets = tweepy.Cursor(api.search, "drop your handle").items(200)
     print("Running handle search.")
     i = 0
@@ -286,6 +298,7 @@ def follow_followers():
 
 
 def searchBot4():
+    client.incr('tendie_read', 20)
     tweets = tweepy.Cursor(api.search, "Kyrie Irving").items(20)
     print("Running Kyrie search.")
     print(time.ctime())
@@ -304,6 +317,7 @@ def searchBot4():
 
 
 def tigerSearch():
+    client.incr('tendie_read', 100)
     tiger = tweepy.Cursor(api.search, "tiger woods").items(100)
     print("Running Tiger search.")
     print(time.ctime())
@@ -322,6 +336,7 @@ def tigerSearch():
 
 
 def speithSearch():
+    client.incr('tendie_read', 50)
     speith = tweepy.Cursor(api.search, "Jordan Speith").items(50)
     print("Running Speith search.")
     print(time.ctime())
@@ -340,6 +355,7 @@ def speithSearch():
 
 
 def fowlerSearch():
+    client.incr('tendie_read', 20)
     fowler = tweepy.Cursor(api.search, "Rickie Fowler").items(20)
     print("Running Fowler search.")
     print(time.ctime())
@@ -359,6 +375,7 @@ def fowlerSearch():
 
 
 def brysonSearch():
+    client.incr('tendie_read', 50)
     bryson = tweepy.Cursor(api.search, "Bryson Dechambeau").items(50)
     print("Running DeChambeau search.")
     print(time.ctime())
@@ -460,11 +477,11 @@ def send_error_message(follower):
 
 print(time.ctime())
 #schedule.every(20).minutes.do(reply)
-schedule.every(8).minutes.do(thank_new_followers)
+schedule.every(10).minutes.do(thank_new_followers)
 schedule.every(3).minutes.do(dm_reply)
 # schedule.every(180).seconds.do(retweet_tendie)
-schedule.every(400).minutes.do(handles_reply)
-schedule.every().hour.do(ifb_bot)
+schedule.every(6).hours.do(handles_reply)
+schedule.every(2).hours.do(ifb_bot)
 # schedule.every(2).hours.do(gain_tweet)
 schedule.every().day.at("02:23").do(searchBot)
 schedule.every().day.at("04:23").do(searchBot2)
