@@ -434,7 +434,7 @@ def thank_new_followers():
                         "If your next message has 'yes' anywhere in it I will send you the link!"
                     api.send_direct_message(follower, to_string)
                 except tweepy.TweepError as e:
-                    if e.reason[:13] == "[{'code': 226" e.reason[:13] != "[{'code': 429":
+                    if e.reason[:13] == "[{'code': 226":
                             print("They think this is spam...")
                             trouble = True
                     else:
