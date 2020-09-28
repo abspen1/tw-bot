@@ -119,10 +119,9 @@ def retweet_tendie():
                     api.create_favorite(tweet.id)
                     # tweet.retweet()
                     # print(client.get('since_id'))
-                    time.sleep(2)
         except tweepy.TweepError as e:
             print(e.reason)
-            time.sleep(2)
+        time.sleep(2)
         client.set('since_id', tweet.id)
 
 
@@ -179,7 +178,7 @@ def check_dm(text):
 def github_dm(sender_id):
     client.sadd('sent_dm_2', str(sender_id))
     to_string = "\nAwesome, here is the link! Let me know what you think!\n" + \
-        "https://abspen1.github.io/twitter-bot/"
+        "https://github.com/twitter-bot/"
     api.send_direct_message(sender_id, to_string)
 
     # Subtract one here since I added my ID to ignore also
@@ -198,11 +197,10 @@ def searchBot():
                 tweet.retweet()
                 print("Retweet done!")
             api.create_favorite(tweet.id)
-            time.sleep(2)
         except tweepy.TweepError as e:
-            if e.reason[:13] != "[{'code': 139":
-                print(e.reason)
-            time.sleep(2)
+            print(e.reason)
+            return
+        time.sleep(2)
 
 
 def searchBot2():
@@ -217,11 +215,10 @@ def searchBot2():
             if count % 20 == 0:
                 print(f"Favorited {count} nba tweets!")
             api.create_favorite(tweet.id)
-            time.sleep(2)
         except tweepy.TweepError as e:
-            if e.reason[:13] != "[{'code': 139":
-                print(e.reason)
-            time.sleep(2)
+            print(e.reason)
+            return
+        time.sleep(2)
 
 
 def searchBot3():
@@ -236,11 +233,10 @@ def searchBot3():
                 print(f"Favorited {i} laker tweets")
                 tweet.retweet()
             api.create_favorite(tweet.id)
-            time.sleep(2)
         except tweepy.TweepError as e:
-            if e.reason[:13] != "[{'code': 139":
-                print(e.reason)
-            time.sleep(2)
+            print(e.reason)
+            return
+        time.sleep(2)
 
 
 def ifb_bot():
@@ -254,8 +250,8 @@ def ifb_bot():
                 print(f"Favorited {i} ifb tweets")
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
-            if e.reason[:13] != "[{'code': 139":
-                print(e.reason)
+            print(e.reason)
+            return
         time.sleep(2)
 
 
@@ -275,8 +271,8 @@ def handles_reply():
                 if i == 2:
                     return
             except tweepy.TweepError as e:
-                if e.reason[:13] != "[{'code': 139":
-                    print(e.reason)
+                print(e.reason)
+                return
             time.sleep(2)
         
 
@@ -301,11 +297,10 @@ def searchBot4():
                 print(f"Favorited {i} Kyrie tweets")
                 tweet.retweet()
             api.create_favorite(tweet.id)
-            time.sleep(2)
         except tweepy.TweepError as e:
-            if e.reason[:13] != "[{'code': 139":
-                print(e.reason)
-            time.sleep(2)
+            print(e.reason)
+            return
+        time.sleep(2)
 
 
 def tigerSearch():
@@ -320,11 +315,10 @@ def tigerSearch():
                 print(f"Favorited {i} Tiger tweets")
                 tweet.retweet()
             api.create_favorite(tweet.id)
-            time.sleep(2)
         except tweepy.TweepError as e:
-            if e.reason[:13] != "[{'code': 139":
-                print(e.reason)
-            time.sleep(2)
+            print(e.reason)
+            return
+        time.sleep(2)
 
 
 def speithSearch():
@@ -339,11 +333,10 @@ def speithSearch():
                 print(f"Favorited {i} Speith tweets")
                 tweet.retweet()
             api.create_favorite(tweet.id)
-            time.sleep(2)
         except tweepy.TweepError as e:
-            if e.reason[:13] != "[{'code': 139":
-                print(e.reason)
-            time.sleep(2)
+            print(e.reason)
+            return
+        time.sleep(2)
 
 
 def fowlerSearch():
@@ -360,8 +353,8 @@ def fowlerSearch():
             api.create_favorite(tweet.id)
             time.sleep(2)
         except tweepy.TweepError as e:
-            if e.reason[:13] != "[{'code': 139":
-                print(e.reason)
+            print(e.reason)
+            return
             time.sleep(2)
 
 
@@ -377,11 +370,10 @@ def brysonSearch():
                 print(f"Favorited {i} Bryson tweets")
                 tweet.retweet()
             api.create_favorite(tweet.id)
-            time.sleep(2)
         except tweepy.TweepError as e:
-            if e.reason[:13] != "[{'code': 139":
-                print(e.reason)
-            time.sleep(2)
+            print(e.reason)
+            return
+        time.sleep(2)
 
 
 def thank_new_followers():
@@ -408,7 +400,7 @@ def thank_new_followers():
                     we will keep trying to follow them until they accept our follow.
                 """
                 if e.reason[:13] != "[{'code': 160":
-                    print(e.reason)
+                    return
                 time.sleep(2)
     if new > 0:
         print(f"Followed {new} people.")
@@ -419,21 +411,21 @@ def thank_new_followers():
         # print("Thanking new followers.")
         for follower in new_followers:
             client.sadd('thanked_followers', str(follower))
-        #     if not trouble:
-        #         try:
-        #             to_string = "\nAppreciate you following me! I am a fully automated twitter account. If you're interested in programming or if you'd like to create an automated twitter account of your own, I can send you a link to my twitter-bot WebPage!\n" + \
-        #                 "If your next message has 'yes' anywhere in it I will send you a link!"
-        #             api.send_direct_message(follower, to_string)
-        #         except tweepy.TweepError as e:
-        #             if e.reason[:13] == "[{'code': 226":
-        #                     print("They think this is spam...")
-        #                     trouble = True
-        #             else:
-        #                 print(e.reason)
-        #         client.sadd('thanked_followers', str(follower))
-        #         time.sleep(3)
-        #     else:
-        #         client.sadd('thanked_followers', str(follower))
+            if not trouble:
+                try:
+                    to_string = "\nAppreciate you following me! I am a fully automated twitter account. If you're interested in programming or if you'd like to create an automated twitter account of your own, I can send you a link to my GitHub repository!\n" + \
+                        "If your next message has 'yes' anywhere in it I will send you the link!"
+                    api.send_direct_message(follower, to_string)
+                except tweepy.TweepError as e:
+                    if e.reason[:13] == "[{'code': 226" e.reason[:13] != "[{'code': 429":
+                            print("They think this is spam...")
+                            trouble = True
+                    else:
+                        print(e.reason)
+                client.sadd('thanked_followers', str(follower))
+                time.sleep(3)
+            else:
+                client.sadd('thanked_followers', str(follower))
         new_total_followers = client.scard('thanked_followers')
         total_followers = new_total_followers - total_followers
         print(f"Bottimus has {total_followers} new followers. Total of {new_total_followers} followers.")
@@ -451,14 +443,27 @@ def gain_tweet():
         print(f"Tweeted gain tweet #{num}")
     except tweepy.TweepError as e:
         print(e)
+        return
+
+
+def send_error_message(follower):
+    try:
+        to_string = "I errored out.. going to sleep for 2 hours.."
+        api.send_direct_message(follower, to_string)
+        print("Sent dm to owner since we errored out.")
+    except tweepy.TweepError as e:
+        if e.reason[:13] != "[{'code': 139" or e.reason[:13] != "[{'code': 226" or e.reason[:13] != "[{'code': 429":
+            print(e.reason)
+        time.sleep(10*60)
+        send_error_message(441228378)
 
 
 print(time.ctime())
 #schedule.every(20).minutes.do(reply)
 schedule.every(8).minutes.do(thank_new_followers)
-# schedule.every(10).minutes.do(dm_reply)
+schedule.every(3).minutes.do(dm_reply)
 # schedule.every(180).seconds.do(retweet_tendie)
-schedule.every(200).minutes.do(handles_reply)
+schedule.every(400).minutes.do(handles_reply)
 schedule.every().hour.do(ifb_bot)
 # schedule.every(2).hours.do(gain_tweet)
 schedule.every().day.at("02:23").do(searchBot)
@@ -480,12 +485,5 @@ while True:
         time.sleep(1)
     except tweepy.TweepError as e:
         print(e.reason)
+        send_error_message(441228378)
         time.sleep(1)
-
-# if __name__ == "__main__":
-#     searchBot()
-#     searchBot2()
-#     searchBot3()
-#     searchBot4()
-#     auto_follow()
-    # unfollow()
