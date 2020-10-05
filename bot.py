@@ -19,11 +19,8 @@ client = redis.Redis(host=os.getenv("HOST"), port=6379,
                      password=os.getenv("REDIS_PASS"))
 #api.update_status('Hello from Bottimus2. This is my second tweet!')
 
-### Global Variables
-tweets_read = int(client.get("tendie_read"))
-
 def auto_follow():
-    client.incr('tendie_read', 100)
+    client.incr('cloud_read', 100)
     # terms = ["python", "programming", "basketball", "sports", "stock", "followback", "follow back"]
     query = "ifb"
     print(f"Following users who have tweeted about the {query}")
@@ -127,7 +124,7 @@ def retweet_tendie():
             print(e.reason)
         time.sleep(2)
         client.set('since_id', tweet.id)
-    client.incr('tendie_read', tally)
+    client.incr('cloud_read', tally)
 
 
 def read_last_seen():
@@ -158,7 +155,7 @@ def reply():
         #api.retweet(tweet.id)
         api.create_favorite(tweet.id)
         store_last_seen(tweet.id)
-    client.incr('tendie_read', tally)
+    client.incr('cloud_read', tally)
 
 
 def dm_reply():
@@ -193,7 +190,7 @@ def github_dm(sender_id):
     print(f"Sent github dm : {num}")
 
 def searchBot():
-    client.incr('tendie_read', 50)
+    client.incr('cloud_read', 50)
     tweets = tweepy.Cursor(api.search, "#lebronjames").items(50)
     print("Running #lebronjames search.")
     print(time.ctime())
@@ -212,7 +209,7 @@ def searchBot():
 
 
 def searchBot2():
-    client.incr('tendie_read', 200)
+    client.incr('cloud_read', 200)
     tweets = tweepy.Cursor(api.search, "nba").items(200)
     print("Running nba search.")
     print(time.ctime())
@@ -231,7 +228,7 @@ def searchBot2():
 
 
 def searchBot3():
-    client.incr('tendie_read', 250)
+    client.incr('cloud_read', 250)
     tweets = tweepy.Cursor(api.search, "lakers").items(250)
     print("Running laker search.")
     print(time.ctime())
@@ -250,7 +247,7 @@ def searchBot3():
 
 
 def ifb_bot():
-    client.incr('tendie_read', 250)
+    client.incr('cloud_read', 250)
     tweets = tweepy.Cursor(api.search, "ifb").items(250)
     print("Running ifb search.")
     i = 0
@@ -267,7 +264,7 @@ def ifb_bot():
 
 
 def handles_reply():
-    client.incr('tendie_read', 200)
+    client.incr('cloud_read', 200)
     tweets = tweepy.Cursor(api.search, "drop your handle").items(200)
     print("Running handle search.")
     i = 0
@@ -298,7 +295,7 @@ def follow_followers():
 
 
 def searchBot4():
-    client.incr('tendie_read', 20)
+    client.incr('cloud_read', 20)
     tweets = tweepy.Cursor(api.search, "Kyrie Irving").items(20)
     print("Running Kyrie search.")
     print(time.ctime())
@@ -317,7 +314,7 @@ def searchBot4():
 
 
 def tigerSearch():
-    client.incr('tendie_read', 100)
+    client.incr('cloud_read', 100)
     tiger = tweepy.Cursor(api.search, "tiger woods").items(100)
     print("Running Tiger search.")
     print(time.ctime())
@@ -336,7 +333,7 @@ def tigerSearch():
 
 
 def speithSearch():
-    client.incr('tendie_read', 50)
+    client.incr('cloud_read', 50)
     speith = tweepy.Cursor(api.search, "Jordan Speith").items(50)
     print("Running Speith search.")
     print(time.ctime())
@@ -355,7 +352,7 @@ def speithSearch():
 
 
 def fowlerSearch():
-    client.incr('tendie_read', 20)
+    client.incr('cloud_read', 20)
     fowler = tweepy.Cursor(api.search, "Rickie Fowler").items(20)
     print("Running Fowler search.")
     print(time.ctime())
@@ -375,7 +372,7 @@ def fowlerSearch():
 
 
 def brysonSearch():
-    client.incr('tendie_read', 50)
+    client.incr('cloud_read', 50)
     bryson = tweepy.Cursor(api.search, "Bryson Dechambeau").items(50)
     print("Running DeChambeau search.")
     print(time.ctime())
