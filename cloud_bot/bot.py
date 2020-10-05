@@ -366,7 +366,7 @@ def thank_new_followers():
             client.sadd('thanked_followers', str(follower))
             if not trouble:
                 try:
-                    to_string = "\nAppreciate you following me! Check the link in my bio if you're interested in creating your own automated twitter account!"
+                    to_string = "\nAppreciate you following me! Click the link in my bio if you're interested in creating your own automated twitter account!"
                     api.send_direct_message(follower, to_string)
                 except tweepy.TweepError as e:
                     if e.reason[:13] == "[{'code': 226":
