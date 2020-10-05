@@ -104,29 +104,6 @@ def unfollow():
     print(f"Unfollowed {unfollowed} losers.")
 
 
-def retweet_tendie():  
-    tally = 0
-    client = redis.Redis(host=os.getenv("HOST"), port=6379,
-                         password=os.getenv("REDIS_PASS"))
-    tweet_id = int(client.get('since_id'))
-    tweets = api.home_timeline(since_id=tweet_id, include_rts=1, count=200)
-    for tweet in reversed(tweets):
-        tally += 1
-        try:
-            if tweet.user.screen_name == 'InternTendie' or tweet.user.screen_name == 'CalendarKy':
-                # print(f"We got here at {tally}")
-                if str(tweet.text)[:1] != "@" and str(tweet.text)[:2] != "RT":
-                    print(tweet.text)
-                    api.create_favorite(tweet.id)
-                    # tweet.retweet()
-                    # print(client.get('since_id'))
-        except tweepy.TweepError as e:
-            print(e.reason)
-        time.sleep(2)
-        client.set('since_id', tweet.id)
-    client.incr('cloud_read', tally)
-
-
 def read_last_seen():
     # file_read = open(FILE_NAME, 'r')
     # last_seen = int(file_read.read().strip())
@@ -157,37 +134,6 @@ def reply():
         store_last_seen(tweet.id)
     client.incr('cloud_read', tally)
 
-
-def dm_reply():
-    last_seen = int(client.get('dm_seen_2'))
-    messages = api.list_direct_messages(last_seen)
-    for message in reversed(messages):
-        sender_id = message.message_create['sender_id']
-        ## moving this if statement for quicker runtime ;]
-        if not client.sismember('sent_dm_2', str(sender_id)):
-            text = message.message_create['message_data']['text']
-            print(text)
-            if check_dm(text.lower()):
-                github_dm(sender_id)
-        last_seen = message.id
-    client.set('dm_seen_2', str(last_seen))
-
-
-def check_dm(text):
-    if 'yes' in text.lower() or 'yea' in text.lower() or 'send it' in text.lower() or 'yep' in text.lower() or 'sure' in text.lower() or 'ya' in text.lower():
-        return True
-    return False
-
-
-def github_dm(sender_id):
-    client.sadd('sent_dm_2', str(sender_id))
-    to_string = "\nAwesome, here is the link! Let me know what you think!\n" + \
-        "https://github.com/abspen1/twitter-bot/"
-    api.send_direct_message(sender_id, to_string)
-
-    # Subtract one here since I added my ID to ignore also
-    num = client.scard('sent_dm_2') - 1
-    print(f"Sent github dm : {num}")
 
 def searchBot():
     client.incr('cloud_read', 30)
@@ -443,21 +389,6 @@ def thank_new_followers():
         new_total_followers = client.scard('thanked_followers')
         total_followers = new_total_followers - total_followers
         print(f"Bottimus has {total_followers} new followers. Total of {new_total_followers} followers.")
-    dm_reply()
-
-def gain_tweet():
-    try:
-        client = redis.Redis(host=os.getenv("HOST"), port=6379,
-                            password=os.getenv("REDIS_PASS"))
-        num = int(client.get('gain_tweet'))
-        num += 1
-        client.set('gain_tweet', str(num))
-        tweet = f"#{num} Follow me & everyone who retweets/likes. Add your handles, I follow back! :)"
-        api.update_status(tweet)
-        print(f"Tweeted gain tweet #{num}")
-    except tweepy.TweepError as e:
-        print(e)
-        return
 
 
 def send_error_message(follower):
@@ -475,13 +406,7 @@ def send_error_message(follower):
 to_string = client.get('cloud').decode("utf-8")
 api.send_direct_message(441228378, to_string)
 print(time.ctime())
-#schedule.every(20).minutes.do(reply)
-# schedule.every(10).minutes.do(thank_new_followers)
-# schedule.every(3).minutes.do(dm_reply)
-# schedule.every(180).seconds.do(retweet_tendie)
-# schedule.every(6).hours.do(handles_reply)
-schedule.every(2).hours.do(ifb_bot)
-# schedule.every(2).hours.do(gain_tweet)
+schedule.every(3).hours.do(ifb_bot)
 schedule.every().day.at("02:23").do(searchBot)
 schedule.every().day.at("04:23").do(searchBot2)
 schedule.every().day.at("06:23").do(searchBot3)
