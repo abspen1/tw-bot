@@ -379,8 +379,10 @@ def thank_new_followers():
             else:
                 client.sadd('thanked_followers', str(follower))
         new_total_followers = client.scard('thanked_followers')
-        total_followers = new_total_followers - total_followers
-        print(f"Bottimus has {total_followers} new followers. Total of {new_total_followers} followers.")
+        new_total_followers -= total_followers
+        acct = api.get_user("Bottimus2")
+        actual_followers = str(acct.followers_count)
+        print(f"Bottimus has {new_total_followers} new followers. Total of {actual_followers} followers.")
 
 
 def send_error_message(follower, message):
