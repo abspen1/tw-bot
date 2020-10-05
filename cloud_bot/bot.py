@@ -139,7 +139,6 @@ def searchBot():
     client.incr('cloud_read', 30)
     tweets = tweepy.Cursor(api.search, "cloud deployment").items(30)
     print("Running cloud deployment search.")
-    print(time.ctime())
     count = 0
     for tweet in tweets:
         try:
@@ -158,7 +157,6 @@ def searchBot2():
     client.incr('cloud_read', 200)
     tweets = tweepy.Cursor(api.search, "google cloud").items(200)
     print("Running google cloud search.")
-    print(time.ctime())
     count = 0
     for tweet in tweets:
         count += 1
@@ -177,7 +175,6 @@ def searchBot3():
     client.incr('cloud_read', 100)
     tweets = tweepy.Cursor(api.search, "python").items(100)
     print("Running python search.")
-    print(time.ctime())
     i = 0
     for tweet in tweets:
         i += 1
@@ -245,7 +242,6 @@ def searchBot4():
     client.incr('cloud_read', 20)
     tweets = tweepy.Cursor(api.search, "docker").items(20)
     print("Running docker search.")
-    print(time.ctime())
     i = 0
     for tweet in tweets:
         i += 1
@@ -264,7 +260,6 @@ def tigerSearch():
     client.incr('cloud_read', 100)
     tiger = tweepy.Cursor(api.search, "#data").items(100)
     print("Running #data search.")
-    print(time.ctime())
     i = 0
     for tweet in tiger:
         i += 1
@@ -283,7 +278,6 @@ def speithSearch():
     client.incr('cloud_read', 50)
     speith = tweepy.Cursor(api.search, "#bigdata").items(50)
     print("Running #bigdata search.")
-    print(time.ctime())
     i = 0
     for tweet in speith:
         i += 1
@@ -302,7 +296,6 @@ def fowlerSearch():
     client.incr('cloud_read', 20)
     fowler = tweepy.Cursor(api.search, "golang").items(20)
     print("Running golang search.")
-    print(time.ctime())
     i = 0
     for tweet in fowler:
         i += 1
@@ -322,7 +315,6 @@ def brysonSearch():
     client.incr('cloud_read', 30)
     bryson = tweepy.Cursor(api.search, "redis").items(30)
     print("Running redis search.")
-    print(time.ctime())
     i = 0
     for tweet in bryson:
         i += 1
@@ -374,8 +366,7 @@ def thank_new_followers():
             client.sadd('thanked_followers', str(follower))
             if not trouble:
                 try:
-                    to_string = "\nAppreciate you following me! I am a fully automated twitter account. If you're interested in programming or if you'd like to create an automated twitter account of your own, I can send you a link to my GitHub repository!\n" + \
-                        "If your next message has 'yes' anywhere in it I will send you the link!"
+                    to_string = "\nAppreciate you following me! Check the link in my bio if you're interested in creating your own automated twitter account!"
                     api.send_direct_message(follower, to_string)
                 except tweepy.TweepError as e:
                     if e.reason[:13] == "[{'code': 226":
@@ -404,6 +395,7 @@ def send_error_message(follower, message):
 
 
 print(time.ctime())
+schedule.every(5).minutes.do(thank_new_followers)
 schedule.every(3).hours.do(ifb_bot)
 schedule.every().day.at("12:23").do(searchBot)
 schedule.every().day.at("15:23").do(searchBot2)
