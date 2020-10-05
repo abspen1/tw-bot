@@ -174,19 +174,20 @@ def searchBot2():
 
 
 def searchBot3():
-    client.incr('cloud_read', 250)
-    tweets = tweepy.Cursor(api.search, "python").items(250)
+    client.incr('cloud_read', 100)
+    tweets = tweepy.Cursor(api.search, "python").items(100)
     print("Running python search.")
     print(time.ctime())
     i = 0
     for tweet in tweets:
         i += 1
         try:
-            if i % 50 == 0:
+            if i % 40 == 0:
                 print(f"Favorited {i} python tweets")
                 tweet.retweet()
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
+            print(f"Favorited {i} python tweets")
             print(e.reason)
             return
         time.sleep(2)
@@ -404,9 +405,9 @@ def send_error_message(follower, message):
 
 print(time.ctime())
 schedule.every(3).hours.do(ifb_bot)
-schedule.every().day.at("02:23").do(searchBot)
-schedule.every().day.at("04:23").do(searchBot2)
-schedule.every().day.at("06:23").do(searchBot3)
+schedule.every().day.at("12:23").do(searchBot)
+schedule.every().day.at("15:23").do(searchBot2)
+schedule.every().day.at("10:38").do(searchBot3)
 schedule.every().day.at("08:23").do(searchBot4)
 schedule.every().day.at("09:34").do(tigerSearch)
 schedule.every().day.at("12:48").do(speithSearch)
