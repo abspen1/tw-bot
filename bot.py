@@ -15,7 +15,7 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(key, secret)
 auth.secure = True
 api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
-client = redis.Redis(host="10.10.10.1", port=6379,
+client = redis.Redis(host=os.getenv("HOST"), port=6379,
                      password=os.getenv("REDIS_PASS"))
 #api.update_status('Hello from Bottimus2. This is my second tweet!')
 
@@ -109,7 +109,7 @@ def unfollow():
 
 def retweet_tendie():  
     tally = 0
-    client = redis.Redis(host="10.10.10.1", port=6379,
+    client = redis.Redis(host=os.getenv("HOST"), port=6379,
                          password=os.getenv("REDIS_PASS"))
     tweet_id = int(client.get('since_id'))
     tweets = api.home_timeline(since_id=tweet_id, include_rts=1, count=200)
@@ -450,7 +450,7 @@ def thank_new_followers():
 
 def gain_tweet():
     try:
-        client = redis.Redis(host="10.10.10.1", port=6379,
+        client = redis.Redis(host=os.getenv("HOST"), port=6379,
                             password=os.getenv("REDIS_PASS"))
         num = int(client.get('gain_tweet'))
         num += 1
@@ -475,6 +475,7 @@ def send_error_message(follower):
         send_error_message(441228378)
 
 
+api.send_direct_message(441228378, "Hello from the cloud!")
 print(time.ctime())
 #schedule.every(20).minutes.do(reply)
 schedule.every(10).minutes.do(thank_new_followers)
