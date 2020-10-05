@@ -391,10 +391,9 @@ def thank_new_followers():
         print(f"Bottimus has {total_followers} new followers. Total of {new_total_followers} followers.")
 
 
-def send_error_message(follower):
+def send_error_message(follower, message):
     try:
-        to_string = "I errored out.. going to sleep for 2 hours.."
-        api.send_direct_message(follower, to_string)
+        api.send_direct_message(follower, message)
         print("Sent dm to owner since we errored out.")
     except tweepy.TweepError as e:
         if e.reason[:13] != "[{'code': 139" or e.reason[:13] != "[{'code': 226" or e.reason[:13] != "[{'code': 429":
@@ -425,6 +424,5 @@ while True:
         schedule.run_pending()
         time.sleep(1)
     except tweepy.TweepError as e:
-        print(e.reason)
-        send_error_message(441228378)
+        send_error_message(441228378, e.reason)
         time.sleep(1)
