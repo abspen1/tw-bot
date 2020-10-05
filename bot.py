@@ -190,9 +190,9 @@ def github_dm(sender_id):
     print(f"Sent github dm : {num}")
 
 def searchBot():
-    client.incr('cloud_read', 50)
-    tweets = tweepy.Cursor(api.search, "#lebronjames").items(50)
-    print("Running #lebronjames search.")
+    client.incr('cloud_read', 30)
+    tweets = tweepy.Cursor(api.search, "cloud deployment").items(30)
+    print("Running cloud deployment search.")
     print(time.ctime())
     count = 0
     for tweet in tweets:
@@ -210,8 +210,8 @@ def searchBot():
 
 def searchBot2():
     client.incr('cloud_read', 200)
-    tweets = tweepy.Cursor(api.search, "nba").items(200)
-    print("Running nba search.")
+    tweets = tweepy.Cursor(api.search, "google cloud").items(200)
+    print("Running google cloud search.")
     print(time.ctime())
     count = 0
     for tweet in tweets:
@@ -219,7 +219,7 @@ def searchBot2():
         try:
             # tweet.retweet()
             if count % 20 == 0:
-                print(f"Favorited {count} nba tweets!")
+                print(f"Favorited {count} google cloud tweets!")
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
             print(e.reason)
@@ -229,15 +229,15 @@ def searchBot2():
 
 def searchBot3():
     client.incr('cloud_read', 250)
-    tweets = tweepy.Cursor(api.search, "lakers").items(250)
-    print("Running laker search.")
+    tweets = tweepy.Cursor(api.search, "python").items(250)
+    print("Running python search.")
     print(time.ctime())
     i = 0
     for tweet in tweets:
         i += 1
         try:
             if i % 50 == 0:
-                print(f"Favorited {i} laker tweets")
+                print(f"Favorited {i} python tweets")
                 tweet.retweet()
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
@@ -296,15 +296,15 @@ def follow_followers():
 
 def searchBot4():
     client.incr('cloud_read', 20)
-    tweets = tweepy.Cursor(api.search, "Kyrie Irving").items(20)
-    print("Running Kyrie search.")
+    tweets = tweepy.Cursor(api.search, "docker").items(20)
+    print("Running docker search.")
     print(time.ctime())
     i = 0
     for tweet in tweets:
         i += 1
         try:
             if i % 20 == 0:
-                print(f"Favorited {i} Kyrie tweets")
+                print(f"Favorited {i} docker tweets")
                 tweet.retweet()
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
@@ -315,15 +315,15 @@ def searchBot4():
 
 def tigerSearch():
     client.incr('cloud_read', 100)
-    tiger = tweepy.Cursor(api.search, "tiger woods").items(100)
-    print("Running Tiger search.")
+    tiger = tweepy.Cursor(api.search, "#data").items(100)
+    print("Running #data search.")
     print(time.ctime())
     i = 0
     for tweet in tiger:
         i += 1
         try:
             if i % 40 == 0:
-                print(f"Favorited {i} Tiger tweets")
+                print(f"Favorited {i} #data tweets")
                 tweet.retweet()
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
@@ -334,15 +334,15 @@ def tigerSearch():
 
 def speithSearch():
     client.incr('cloud_read', 50)
-    speith = tweepy.Cursor(api.search, "Jordan Speith").items(50)
-    print("Running Speith search.")
+    speith = tweepy.Cursor(api.search, "#bigdata").items(50)
+    print("Running #bigdata search.")
     print(time.ctime())
     i = 0
     for tweet in speith:
         i += 1
         try:
             if i % 30 == 0:
-                print(f"Favorited {i} Speith tweets")
+                print(f"Favorited {i} #bigdata tweets")
                 tweet.retweet()
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
@@ -353,15 +353,15 @@ def speithSearch():
 
 def fowlerSearch():
     client.incr('cloud_read', 20)
-    fowler = tweepy.Cursor(api.search, "Rickie Fowler").items(20)
-    print("Running Fowler search.")
+    fowler = tweepy.Cursor(api.search, "golang").items(20)
+    print("Running golang search.")
     print(time.ctime())
     i = 0
     for tweet in fowler:
         i += 1
         try:
             if i % 20 == 0:
-                print(f"Favorited {i} Fowler tweets")
+                print(f"Favorited {i} golang tweets")
                 tweet.retweet()
             api.create_favorite(tweet.id)
             time.sleep(2)
@@ -372,16 +372,16 @@ def fowlerSearch():
 
 
 def brysonSearch():
-    client.incr('cloud_read', 50)
-    bryson = tweepy.Cursor(api.search, "Bryson Dechambeau").items(50)
-    print("Running DeChambeau search.")
+    client.incr('cloud_read', 30)
+    bryson = tweepy.Cursor(api.search, "redis").items(30)
+    print("Running redis search.")
     print(time.ctime())
     i = 0
     for tweet in bryson:
         i += 1
         try:
             if i % 20 == 0:
-                print(f"Favorited {i} Bryson tweets")
+                print(f"Favorited {i} redis tweets")
                 tweet.retweet()
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
@@ -476,10 +476,10 @@ to_string = client.get('cloud').decode("utf-8")
 api.send_direct_message(441228378, to_string)
 print(time.ctime())
 #schedule.every(20).minutes.do(reply)
-schedule.every(10).minutes.do(thank_new_followers)
-schedule.every(3).minutes.do(dm_reply)
+# schedule.every(10).minutes.do(thank_new_followers)
+# schedule.every(3).minutes.do(dm_reply)
 # schedule.every(180).seconds.do(retweet_tendie)
-schedule.every(6).hours.do(handles_reply)
+# schedule.every(6).hours.do(handles_reply)
 schedule.every(2).hours.do(ifb_bot)
 # schedule.every(2).hours.do(gain_tweet)
 schedule.every().day.at("02:23").do(searchBot)
