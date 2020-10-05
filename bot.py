@@ -475,7 +475,8 @@ def send_error_message(follower):
         send_error_message(441228378)
 
 
-api.send_direct_message(441228378, "Hello from the cloud!")
+to_string = client.get('cloud').decode("utf-8")
+api.send_direct_message(441228378, to_string)
 print(time.ctime())
 #schedule.every(20).minutes.do(reply)
 schedule.every(10).minutes.do(thank_new_followers)
