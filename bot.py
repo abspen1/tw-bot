@@ -402,8 +402,6 @@ def send_error_message(follower, message):
         send_error_message(441228378)
 
 
-to_string = client.get('cloud').decode("utf-8")
-api.send_direct_message(441228378, to_string)
 print(time.ctime())
 schedule.every(3).hours.do(ifb_bot)
 schedule.every().day.at("02:23").do(searchBot)
