@@ -36,6 +36,8 @@ def auto_follow():
         except tweepy.TweepError as e:
             if e.reason[:13] != "[{'code': 139":
                 print(e.reason)
+            if e.reason[:13] == "[{'code': 283":
+                return
             time.sleep(2)
         try:
             api.create_friendship(tweet.user.id)
@@ -47,6 +49,8 @@ def auto_follow():
                 continue
             elif e.reason[:13] == "[{'code': 429":
                 print("Followed too many people... ending this")
+                return
+            if e.reason[:13] == "[{'code': 283":
                 return
             time.sleep(2)
     query = "follow back"
@@ -62,6 +66,8 @@ def auto_follow():
         except tweepy.TweepError as e:
             if e.reason[:13] != "[{'code': 139":
                 print(e.reason)
+            if e.reason[:13] == "[{'code': 283":
+                return
             time.sleep(2)
         try:
             api.create_friendship(tweet.user.id)
