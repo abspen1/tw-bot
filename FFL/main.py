@@ -117,7 +117,7 @@ def trending():
 
 
 print(time.ctime())
-schedule.every().days.at("16:20").do(set_players)
+schedule.every().days.at("12:00").do(set_players)
 schedule.every().day.at("16:30").do(trending)
 
 
