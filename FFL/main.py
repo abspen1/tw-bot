@@ -115,10 +115,73 @@ def trending():
             to_string += f"{position} {key}, Position: {value}\n"
     send_drop_tweet(to_string)
 
+def daily_trending():
+    ##### add #####
+    add = get_trending("add", 24, 10)
+    to_string = ""
+    i = 0
+    for item in add:
+        i += 1
+        title = "daily_trending_" + str(i)
+        hash = client.hgetall(item["player_id"])
+        for key, value in hash.items():
+            key = key.decode("utf-8")
+            value = value.decode("utf-8")
+            to_string = f"{key}, {value}\n"
+        client.set(title, to_string)
+    ##### drop #####
+    drop = get_trending("drop", 24, 10)
+    i = 0
+    to_string = ""
+    for item in drop:
+        i += 1
+        title = "daily_trending_" + str(i)
+        hash = client.hgetall(item["player_id"])
+        for key, value in hash.items():
+            key = key.decode("utf-8")
+            value = value.decode("utf-8")
+            to_string = f"{key}, {value}\n"
+        client.set(title, to_string)
+    print("Updated daily trending.")
 
+
+def weekly_trending():
+    ##### add #####
+    add = get_trending("add", 120, 10)
+    to_string = ""
+    i = 0
+    for item in add:
+        i += 1
+        title = "weekly_trending_" + str(i)
+        hash = client.hgetall(item["player_id"])
+        for key, value in hash.items():
+            key = key.decode("utf-8")
+            value = value.decode("utf-8")
+            to_string = f"{key}, {value}\n"
+        client.set(title, to_string)
+    ##### drop #####
+    drop = get_trending("drop", 120, 10)
+    i = 0
+    to_string = ""
+    for item in drop:
+        i += 1
+        title = "weekly_trending_" + str(i)
+        hash = client.hgetall(item["player_id"])
+        for key, value in hash.items():
+            key = key.decode("utf-8")
+            value = value.decode("utf-8")
+            to_string = f"{key}, {value}\n"
+        client.set(title, to_string)
+    print("Updated weekly trending.")
+
+
+daily_trending()
+weekly_trending()
 print(time.ctime())
-schedule.every().days.at("12:00").do(set_players)
+schedule.every(2).days.at("12:00").do(set_players)
 schedule.every().day.at("16:30").do(trending)
+schedule.every().hour.do(daily_trending)
+schedule.every(4).hours.do(weekly_trending)
 
 
 
