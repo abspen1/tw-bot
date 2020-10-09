@@ -122,7 +122,7 @@ def daily_trending():
     i = 0
     for item in add:
         i += 1
-        title = "daily_trending_" + str(i)
+        title = "daily_trendingA_" + str(i)
         hash = client.hgetall(item["player_id"])
         for key, value in hash.items():
             key = key.decode("utf-8")
@@ -135,7 +135,7 @@ def daily_trending():
     to_string = ""
     for item in drop:
         i += 1
-        title = "daily_trending_" + str(i)
+        title = "daily_trendingD_" + str(i)
         hash = client.hgetall(item["player_id"])
         for key, value in hash.items():
             key = key.decode("utf-8")
@@ -152,7 +152,7 @@ def weekly_trending():
     i = 0
     for item in add:
         i += 1
-        title = "weekly_trending_" + str(i)
+        title = "weekly_trendingA_" + str(i)
         hash = client.hgetall(item["player_id"])
         for key, value in hash.items():
             key = key.decode("utf-8")
@@ -165,7 +165,7 @@ def weekly_trending():
     to_string = ""
     for item in drop:
         i += 1
-        title = "weekly_trending_" + str(i)
+        title = "weekly_trendingD_" + str(i)
         hash = client.hgetall(item["player_id"])
         for key, value in hash.items():
             key = key.decode("utf-8")
