@@ -399,7 +399,7 @@ def send_error_message(follower, message):
         if e.reason[:13] != "[{'code': 139" or e.reason[:13] != "[{'code': 226" or e.reason[:13] != "[{'code': 429":
             print(e.reason)
         time.sleep(10*60)
-        send_error_message(441228378)
+        send_error_message(441228378, message)
 
 
 print(time.ctime())
