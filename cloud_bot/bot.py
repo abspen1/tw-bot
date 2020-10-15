@@ -17,10 +17,10 @@ auth.secure = True
 api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 client = redis.Redis(host=os.getenv("HOST"), port=6379,
                      password=os.getenv("REDIS_PASS"))
-#api.update_status('Hello from Bottimus2. This is my second tweet!')
+
 
 def auto_follow():
-    client.incr('cloud_read', 100)
+    client.incr('cloud_read', 50)
     # terms = ["python", "programming", "basketball", "sports", "stock", "followback", "follow back"]
     query = "ifb"
     print(f"Following users who have tweeted about the {query}")
@@ -154,14 +154,17 @@ def searchBot():
                 print("Retweet done!")
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
-            print(e.reason)
-            return
+            if e.reason[:13] != "[{'code': 139":
+                continue
+            else:
+                print(e.reason)
+                return
         time.sleep(2)
 
 
 def searchBot2():
-    client.incr('cloud_read', 200)
-    tweets = tweepy.Cursor(api.search, "google cloud").items(200)
+    client.incr('cloud_read', 20)
+    tweets = tweepy.Cursor(api.search, "google cloud").items(20)
     print("Running google cloud search.")
     count = 0
     for tweet in tweets:
@@ -172,14 +175,17 @@ def searchBot2():
                 print(f"Favorited {count} google cloud tweets!")
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
-            print(e.reason)
-            return
+            if e.reason[:13] != "[{'code': 139":
+                continue
+            else:
+                print(e.reason)
+                return
         time.sleep(2)
 
 
 def searchBot3():
-    client.incr('cloud_read', 100)
-    tweets = tweepy.Cursor(api.search, "python").items(100)
+    client.incr('cloud_read', 50)
+    tweets = tweepy.Cursor(api.search, "python").items(50)
     print("Running python search.")
     i = 0
     for tweet in tweets:
@@ -191,14 +197,17 @@ def searchBot3():
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
             print(f"Favorited {i} python tweets")
-            print(e.reason)
-            return
+            if e.reason[:13] != "[{'code': 139":
+                continue
+            else:
+                print(e.reason)
+                return
         time.sleep(2)
 
 
 def ifb_bot():
-    client.incr('cloud_read', 250)
-    tweets = tweepy.Cursor(api.search, "ifb").items(250)
+    client.incr('cloud_read', 150)
+    tweets = tweepy.Cursor(api.search, "ifb").items(150)
     print("Running ifb search.")
     i = 0
     for tweet in tweets:
@@ -208,40 +217,12 @@ def ifb_bot():
                 print(f"Favorited {i} ifb tweets")
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
-            print(e.reason)
-            return
-        time.sleep(2)
-
-
-def handles_reply():
-    client.incr('cloud_read', 200)
-    tweets = tweepy.Cursor(api.search, "drop your handle").items(200)
-    print("Running handle search.")
-    i = 0
-    for tweet in tweets:
-        if str(tweet.text)[:1] != "@" and str(tweet.text)[:2] != "RT":
-            i += 1
-            try:
-                if i < 3:
-                    print(f"Replied to {i} handle tweets")
-                    api.update_status("@" + tweet.user.screen_name +
-                                      " Follow @Bottimus2 & I'll Follow Back", tweet.id)
-                    api.create_favorite(tweet.id)
-                if i == 2:
-                    return
-            except tweepy.TweepError as e:
+            if e.reason[:13] != "[{'code': 139":
+                continue
+            else:
                 print(e.reason)
                 return
-            time.sleep(2)
-        
-
-def follow_followers():
-    # print(time.ctime())
-    # print("Retrieving and following followers")
-    for follower in tweepy.Cursor(api.followers).items():
-        if not follower.following:
-            print(f"Following {follower.name}")
-            follower.follow()
+        time.sleep(2)
 
 
 def searchBot4():
@@ -257,14 +238,17 @@ def searchBot4():
                 tweet.retweet()
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
-            print(e.reason)
-            return
+            if e.reason[:13] != "[{'code': 139":
+                continue
+            else:
+                print(e.reason)
+                return
         time.sleep(2)
 
 
 def tigerSearch():
-    client.incr('cloud_read', 100)
-    tiger = tweepy.Cursor(api.search, "#data").items(100)
+    client.incr('cloud_read', 80)
+    tiger = tweepy.Cursor(api.search, "#data").items(80)
     print("Running #data search.")
     i = 0
     for tweet in tiger:
@@ -275,8 +259,11 @@ def tigerSearch():
                 tweet.retweet()
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
-            print(e.reason)
-            return
+            if e.reason[:13] != "[{'code': 139":
+                continue
+            else:
+                print(e.reason)
+                return
         time.sleep(2)
 
 
@@ -293,8 +280,11 @@ def speithSearch():
                 tweet.retweet()
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
-            print(e.reason)
-            return
+            if e.reason[:13] != "[{'code': 139":
+                continue
+            else:
+                print(e.reason)
+                return
         time.sleep(2)
 
 
@@ -312,8 +302,11 @@ def fowlerSearch():
             api.create_favorite(tweet.id)
             time.sleep(2)
         except tweepy.TweepError as e:
-            print(e.reason)
-            return
+            if e.reason[:13] != "[{'code': 139":
+                continue
+            else:
+                print(e.reason)
+                return
             time.sleep(2)
 
 
@@ -330,8 +323,11 @@ def brysonSearch():
                 tweet.retweet()
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
-            print(e.reason)
-            return
+            if e.reason[:13] != "[{'code': 139":
+                continue
+            else:
+                print(e.reason)
+                return
         time.sleep(2)
 
 
@@ -401,7 +397,7 @@ def send_error_message(follower, message):
         time.sleep(10*60)
         send_error_message(441228378, message)
 
-
+searchBot2()
 print(time.ctime())
 schedule.every(5).minutes.do(thank_new_followers)
 schedule.every(4).days.do(ifb_bot)
