@@ -142,14 +142,14 @@ def reply():
 
 
 def searchBot():
-    client.incr('cloud_read', 30)
-    tweets = tweepy.Cursor(api.search, "cloud deployment").items(30)
+    client.incr('cloud_read', 40)
+    tweets = tweepy.Cursor(api.search, "cloud deployment").items(40)
     print("Running cloud deployment search.")
     count = 0
     for tweet in tweets:
         try:
             count+=1
-            if count % 15 == 0:
+            if count % 12 == 0:
                 tweet.retweet()
                 print("Retweet done!")
             api.create_favorite(tweet.id)
@@ -226,14 +226,14 @@ def ifb_bot():
 
 
 def searchBot4():
-    client.incr('cloud_read', 20)
-    tweets = tweepy.Cursor(api.search, "docker").items(20)
+    client.incr('cloud_read', 36)
+    tweets = tweepy.Cursor(api.search, "docker").items(36)
     print("Running docker search.")
     i = 0
     for tweet in tweets:
         i += 1
         try:
-            if i % 20 == 0:
+            if i % 16 == 0:
                 print(f"Favorited {i} docker tweets")
                 tweet.retweet()
             api.create_favorite(tweet.id)
@@ -397,7 +397,7 @@ def send_error_message(follower, message):
         time.sleep(10*60)
         send_error_message(441228378, message)
 
-searchBot2()
+searchBot()
 print(time.ctime())
 schedule.every(5).minutes.do(thank_new_followers)
 schedule.every(4).days.do(ifb_bot)
