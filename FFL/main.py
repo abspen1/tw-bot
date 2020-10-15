@@ -175,8 +175,7 @@ def weekly_trending():
     print("Updated weekly trending.")
 
 
-daily_trending()
-weekly_trending()
+trending()
 print(time.ctime())
 schedule.every(2).days.at("12:00").do(set_players)
 schedule.every().day.at("16:30").do(trending)
