@@ -154,7 +154,7 @@ def searchBot():
                 print("Retweet done!")
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
-            if e.reason[:13] != "[{'code': 139":
+            if e.reason[:13] == "[{'code': 139":
                 continue
             else:
                 print(e.reason)
@@ -175,7 +175,7 @@ def searchBot2():
                 print(f"Favorited {count} google cloud tweets!")
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
-            if e.reason[:13] != "[{'code': 139":
+            if e.reason[:13] == "[{'code': 139":
                 continue
             else:
                 print(e.reason)
@@ -197,7 +197,7 @@ def searchBot3():
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
             print(f"Favorited {i} python tweets")
-            if e.reason[:13] != "[{'code': 139":
+            if e.reason[:13] == "[{'code': 139":
                 continue
             else:
                 print(e.reason)
@@ -217,7 +217,7 @@ def ifb_bot():
                 print(f"Favorited {i} ifb tweets")
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
-            if e.reason[:13] != "[{'code': 139":
+            if e.reason[:13] == "[{'code': 139":
                 continue
             else:
                 print(e.reason)
@@ -238,7 +238,7 @@ def searchBot4():
                 tweet.retweet()
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
-            if e.reason[:13] != "[{'code': 139":
+            if e.reason[:13] == "[{'code': 139":
                 continue
             else:
                 print(e.reason)
@@ -259,7 +259,7 @@ def tigerSearch():
                 tweet.retweet()
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
-            if e.reason[:13] != "[{'code': 139":
+            if e.reason[:13] == "[{'code': 139":
                 continue
             else:
                 print(e.reason)
@@ -280,7 +280,7 @@ def speithSearch():
                 tweet.retweet()
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
-            if e.reason[:13] != "[{'code': 139":
+            if e.reason[:13] == "[{'code': 139":
                 continue
             else:
                 print(e.reason)
@@ -302,7 +302,7 @@ def fowlerSearch():
             api.create_favorite(tweet.id)
             time.sleep(2)
         except tweepy.TweepError as e:
-            if e.reason[:13] != "[{'code': 139":
+            if e.reason[:13] == "[{'code': 139":
                 continue
             else:
                 print(e.reason)
@@ -323,7 +323,7 @@ def brysonSearch():
                 tweet.retweet()
             api.create_favorite(tweet.id)
         except tweepy.TweepError as e:
-            if e.reason[:13] != "[{'code': 139":
+            if e.reason[:13] == "[{'code': 139":
                 continue
             else:
                 print(e.reason)
