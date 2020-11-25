@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-bot
+  namespace: twitter-bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloud-bot
+  template:
+    metadata:
+      labels:
+        app: cloud-bot
+    spec:
+      containers:
+      - name: cloud-bot
+        image: registry:5000/cloud-bot
+        imagePullPolicy: Always
+        env:
+        - name: CONSUMER_KEY
+          valueFrom:
+            secretKeyRef:
+              key: CONSUMER_KEY
+              name: bottimus-twitter-bot
+        - name: CONSUMER_SECRET
+          valueFrom:
+            secretKeyRef:
+              key: CONSUMER_SECRET
+              name: bottimus-twitter-bot
+        - name: KEY
+          valueFrom:
+            secretKeyRef:
+              key: KEY
+              name: bottimus-twitter-bot
+        - name: SECRET
+          valueFrom:
+            secretKeyRef:
+              key: SECRET
+              name: bottimus-twitter-bot
+        - name: REDIS_PASS
+          valueFrom:
+            secretKeyRef:
+              key: REDIS_PASS
+              name: cloud-redis
+        - name: HOST
+          valueFrom:
+            secretKeyRef:
+              key: HOST
+              name: cloud-redis
