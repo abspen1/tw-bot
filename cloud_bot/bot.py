@@ -385,6 +385,7 @@ def thank_new_followers():
         acct = api.get_user("Bottimus2")
         actual_followers = str(acct.followers_count)
         print(f"Bottimus has {new_total_followers} new followers. Total of {actual_followers} followers.")
+        webapp_update()
 
 
 def webapp_update():
@@ -413,7 +414,8 @@ def send_error_message(follower, message):
         time.sleep(10*60)
         send_error_message(441228378, message)
 
-searchBot()
+
+webapp_update()
 print(time.ctime())
 schedule.every(5).minutes.do(thank_new_followers)
 # schedule.every(4).days.do(ifb_bot)
