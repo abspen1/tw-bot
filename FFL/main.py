@@ -77,6 +77,7 @@ def send_drop_tweet(content):
     content = "Sleeper's top 3 dropped players today\n\n" + content
     content = content + "#cloudbot"
     api.update_status(content)
+    client.set('recent', content)
 
 
 def trending():

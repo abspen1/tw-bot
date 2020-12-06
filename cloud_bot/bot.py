@@ -392,13 +392,14 @@ def webapp_update():
                          password=os.getenv("REDIS_PASS"))
     read = 2425452
     read += int(client.get("cloud_read"))
-    
+
     client = redis.Redis(host=os.getenv("REDIS_HOST"), port=6379,
                          password=os.getenv("REDI_PASS"))
     acct = api.get_user("Bottimus2")
     client.set("followers", str(acct.followers_count))
     client.set("favorites", str(acct.favourites_count))
     client.set("statuses", str(acct.statuses_count))
+    client.set("read", str(read))
 
 
 
