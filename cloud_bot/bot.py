@@ -387,6 +387,21 @@ def thank_new_followers():
         print(f"Bottimus has {new_total_followers} new followers. Total of {actual_followers} followers.")
 
 
+def webapp_update():
+    client = redis.Redis(host=os.getenv("HOST"), port=6379,
+                         password=os.getenv("REDIS_PASS"))
+    read = 2425452
+    read += int(client.get("cloud_read"))
+    
+    client = redis.Redis(host=os.getenv("REDIS_HOST"), port=6379,
+                         password=os.getenv("REDI_PASS"))
+    acct = api.get_user("Bottimus2")
+    client.set("followers", str(acct.followers_count))
+    client.set("favorites", str(acct.favourites_count))
+    client.set("statuses", str(acct.statuses_count))
+
+
+
 def send_error_message(follower, message):
     try:
         api.send_direct_message(follower, message)
