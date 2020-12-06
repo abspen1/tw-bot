@@ -74,6 +74,8 @@ def send_add_tweet(content):
 
 
 def send_drop_tweet(content):
+    client = redis.Redis(host=os.getenv("REDIS_HOST"), port=6379,
+                         password=os.getenv("REDI_PASS"))
     content = "Sleeper's top 3 dropped players today\n\n" + content
     content = content + "#cloudbot"
     api.update_status(content)
