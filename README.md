@@ -1,0 +1,2 @@
+# Tw Bot
+This is a twitter bot that is an implementation using the skeleton from [twitter-bot](https://github.com/abspen1/twitter-bot). Please check out that repository and specifically the README for more information!

@@ -16,4 +16,4 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 COPY cloud_bot/bot.py /tmp/bot.py
 
 # CMD ["/bin/bash", "-c", "source activate py36 && python -u /tmp/bot.py" ]
-CMD ["python", "/tmp/bot.py"]
+CMD ["python", "-u", "/tmp/bot.py"]
