@@ -8,7 +8,7 @@ COPY cloud_bot/requirements.txt requirements.txt
 
 # RUN conda create -n py36 python=3.6
 # RUN conda run -n py36 pip install -r requirements.txt
-RUN pip install -r requirements.txt
+RUN pip install --trusted-host pypi.org -r requirements.txt
 
 ENV TZ=US/Arizona
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
