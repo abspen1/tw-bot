@@ -13,9 +13,11 @@ spec:
       labels:
         app: cloud-bot
     spec:
+      imagePullSecrets:
+      - name: pipeline-docker-registry
       containers:
       - name: cloud-bot
-        image: registry:5000/cloud-bot
+        image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
         imagePullPolicy: Always
         env:
         - name: CONSUMER_KEY
