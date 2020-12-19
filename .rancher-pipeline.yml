@@ -10,4 +10,4 @@ stages:
 - name: Deploy
   steps:
   - applyYamlConfig:
-      path: ./bot-dc.yaml
+      path: ./cloud_bot/bot-dc.yaml
