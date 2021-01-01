@@ -20,7 +20,7 @@ client = redis.Redis(host=os.getenv("HOST"), port=6379,
 
 
 def auto_follow():
-    client.incr('cloud_read', 50)
+    client.incr('read', 50)
     # terms = ["python", "programming", "basketball", "sports", "stock", "followback", "follow back"]
     query = "ifb"
     print(f"Following users who have tweeted about the {query}")
@@ -88,7 +88,7 @@ def unfollow():
     print("Running unfollow function.")
     friendNames, followNames = [], []
     try:
-        for friend in tweepy.Cursor(api.friends).items(250):    
+        for friend in tweepy.Cursor(api.friends).items(250):
             friendNames.append(friend.screen_name)
         for follower in tweepy.Cursor(api.followers).items(250):
             followNames.append(follower.screen_name)
@@ -126,6 +126,8 @@ def store_last_seen(last_seen):
     return
 
 #store_last_seen(FILE_NAME, '1194877411671724066')
+
+
 def reply():
     # print("Checking for any mentions")
     # print(time.ctime())
@@ -135,20 +137,20 @@ def reply():
         print("Replied to ID - " + str(tweet.id) + " - " + tweet.full_text)
 
         # api.update_status("@" + tweet.user.screen_name + " Hello, this is an auto-reply", tweet.id)
-        #api.retweet(tweet.id)
+        # api.retweet(tweet.id)
         api.create_favorite(tweet.id)
         store_last_seen(tweet.id)
-    client.incr('cloud_read', tally)
+    client.incr('read', tally)
 
 
 def searchBot():
-    client.incr('cloud_read', 40)
+    client.incr('read', 40)
     tweets = tweepy.Cursor(api.search, "cloud deployment").items(40)
     print("Running cloud deployment search.")
     count = 0
     for tweet in tweets:
         try:
-            count+=1
+            count += 1
             if count % 12 == 0:
                 tweet.retweet()
                 print("Retweet done!")
@@ -163,7 +165,7 @@ def searchBot():
 
 
 def searchBot2():
-    client.incr('cloud_read', 20)
+    client.incr('read', 20)
     tweets = tweepy.Cursor(api.search, "google cloud").items(20)
     print("Running google cloud search.")
     count = 0
@@ -184,7 +186,7 @@ def searchBot2():
 
 
 def searchBot3():
-    client.incr('cloud_read', 50)
+    client.incr('read', 50)
     tweets = tweepy.Cursor(api.search, "python").items(50)
     print("Running python search.")
     i = 0
@@ -206,7 +208,7 @@ def searchBot3():
 
 
 def ifb_bot():
-    client.incr('cloud_read', 150)
+    client.incr('read', 150)
     tweets = tweepy.Cursor(api.search, "ifb").items(150)
     print("Running ifb search.")
     i = 0
@@ -226,7 +228,7 @@ def ifb_bot():
 
 
 def searchBot4():
-    client.incr('cloud_read', 36)
+    client.incr('read', 36)
     tweets = tweepy.Cursor(api.search, "docker").items(36)
     print("Running docker search.")
     i = 0
@@ -247,7 +249,7 @@ def searchBot4():
 
 
 def tigerSearch():
-    client.incr('cloud_read', 80)
+    client.incr('read', 80)
     tiger = tweepy.Cursor(api.search, "#data").items(80)
     print("Running #data search.")
     i = 0
@@ -268,7 +270,7 @@ def tigerSearch():
 
 
 def speithSearch():
-    client.incr('cloud_read', 50)
+    client.incr('read', 50)
     speith = tweepy.Cursor(api.search, "#bigdata").items(50)
     print("Running #bigdata search.")
     i = 0
@@ -289,7 +291,7 @@ def speithSearch():
 
 
 def fowlerSearch():
-    client.incr('cloud_read', 20)
+    client.incr('read', 20)
     fowler = tweepy.Cursor(api.search, "golang").items(20)
     print("Running golang search.")
     i = 0
@@ -311,7 +313,7 @@ def fowlerSearch():
 
 
 def brysonSearch():
-    client.incr('cloud_read', 30)
+    client.incr('read', 30)
     bryson = tweepy.Cursor(api.search, "redis").items(30)
     print("Running redis search.")
     i = 0
@@ -342,7 +344,7 @@ def thank_new_followers():
     new = 0
     for follower in tweepy.Cursor(api.followers).items(100):
         followers.append(str(follower.id))
-        #follower has a long list of possible things to see.. kinda neat
+        # follower has a long list of possible things to see.. kinda neat
         if not follower.following:
             try:
                 follower.follow()
@@ -372,8 +374,8 @@ def thank_new_followers():
                     api.send_direct_message(follower, to_string)
                 except tweepy.TweepError as e:
                     if e.reason[:13] == "[{'code': 226":
-                            print("They think this is spam...")
-                            trouble = True
+                        print("They think this is spam...")
+                        trouble = True
                     else:
                         print(e.reason)
                 client.sadd('thanked_followers', str(follower))
@@ -384,7 +386,8 @@ def thank_new_followers():
         new_total_followers -= total_followers
         acct = api.get_user("Bottimus2")
         actual_followers = str(acct.followers_count)
-        print(f"Bottimus has {new_total_followers} new followers. Total of {actual_followers} followers.")
+        print(
+            f"Bottimus has {new_total_followers} new followers. Total of {actual_followers} followers.")
         webapp_update()
 
 
@@ -392,7 +395,7 @@ def webapp_update():
     client = redis.Redis(host=os.getenv("HOST"), port=6379,
                          password=os.getenv("REDIS_PASS"))
     read = 2425452
-    read += int(client.get("cloud_read"))
+    read += int(client.get("read"))
 
     client = redis.Redis(host=os.getenv("REDIS_HOST"), port=6379,
                          password=os.getenv("REDI_PASS"))
@@ -406,7 +409,6 @@ def webapp_update():
     client.set("statuses", str(acct.statuses_count))
     client.set("read", str(read))
     # client.set("recent", recent)
-
 
 
 def send_error_message(follower, message):
