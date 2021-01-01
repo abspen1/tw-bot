@@ -15,7 +15,7 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(key, secret)
 auth.secure = True
 api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
-client = redis.Redis(host=os.getenv("HOST"), port=6379,
+client = redis.Redis(host=os.getenv("REDIS_HOST"), port=6379,
                      password=os.getenv("REDIS_PASS"))
 
 
@@ -392,7 +392,7 @@ def thank_new_followers():
 
 
 def webapp_update():
-    client = redis.Redis(host=os.getenv("HOST"), port=6379,
+    client = redis.Redis(host=os.getenv("REDIS_HOST"), port=6379,
                          password=os.getenv("REDIS_PASS"))
     read = 2425452
     read += int(client.get("read"))

@@ -14,49 +14,39 @@ spec:
         app: cloud-bot
     spec:
       imagePullSecrets:
-      - name: pipeline-docker-registry
+        - name: pipeline-docker-registry
       containers:
-      - name: cloud-bot
-        image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
-        imagePullPolicy: Always
-        env:
-        - name: CONSUMER_KEY
-          valueFrom:
-            secretKeyRef:
-              key: CONSUMER_KEY
-              name: bottimus-twitter-bot
-        - name: CONSUMER_SECRET
-          valueFrom:
-            secretKeyRef:
-              key: CONSUMER_SECRET
-              name: bottimus-twitter-bot
-        - name: KEY
-          valueFrom:
-            secretKeyRef:
-              key: KEY
-              name: bottimus-twitter-bot
-        - name: SECRET
-          valueFrom:
-            secretKeyRef:
-              key: SECRET
-              name: bottimus-twitter-bot
-        - name: REDIS_PASS
-          valueFrom:
-            secretKeyRef:
-              key: REDIS_PASS
-              name: cloud-redis
-        - name: HOST
-          valueFrom:
-            secretKeyRef:
-              key: HOST
-              name: cloud-redis
-        - name: REDIS_HOST
-          valueFrom:
-            secretKeyRef:
-              key: REDIS_HOST
-              name: redis-pass
-        - name: REDI_PASS
-          valueFrom:
-            secretKeyRef:
-              key: REDIS_PASS
-              name: redis-pass
+        - name: cloud-bot
+          image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+          imagePullPolicy: Always
+          env:
+            - name: CONSUMER_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: CONSUMER_KEY
+                  name: bottimus-twitter-bot
+            - name: CONSUMER_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: CONSUMER_SECRET
+                  name: bottimus-twitter-bot
+            - name: KEY
+              valueFrom:
+                secretKeyRef:
+                  key: KEY
+                  name: bottimus-twitter-bot
+            - name: SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: SECRET
+                  name: bottimus-twitter-bot
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: REDIS_HOST
+                  name: redis-pass
+            - name: REDI_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: REDIS_PASS
+                  name: redis-pass
