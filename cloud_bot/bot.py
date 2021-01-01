@@ -394,11 +394,7 @@ def thank_new_followers():
 def webapp_update():
     client = redis.Redis(host=os.getenv("REDIS_HOST"), port=6379,
                          password=os.getenv("REDIS_PASS"))
-    read = 2425452
-    read += int(client.get("read"))
-
-    client = redis.Redis(host=os.getenv("REDIS_HOST"), port=6379,
-                         password=os.getenv("REDI_PASS"))
+    read = int(client.get("read"))
     acct = api.get_user("Bottimus2")
     try:
         recent = acct.status.text
