@@ -1,5 +1,8 @@
 stages:
   - name: Build & Publish
+    when:
+      branch: cloud
+      event: [push, pull request]
     steps:
       - publishImageConfig:
           dockerfilePath: ./Dockerfile
@@ -8,6 +11,9 @@ stages:
         env:
           PLUGIN_MTU: 1450
   - name: Deploy
+    when:
+      branch: cloud
+      event: [push, pull request]
     steps:
       - applyYamlConfig:
           path: ./cloud_bot/bot-dc.yaml
