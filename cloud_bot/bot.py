@@ -421,7 +421,6 @@ def send_error_message(follower, message):
 webapp_update()
 print(time.ctime())
 
-
 schedule.every(5).minutes.do(thank_new_followers)
 # schedule.every(4).days.do(ifb_bot)
 schedule.every(2).days.at("12:23").do(searchBot)
