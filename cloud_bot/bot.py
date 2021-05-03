@@ -18,6 +18,10 @@ api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 client = redis.Redis(host=os.getenv("REDIS_HOST"), port=6379,
                      password=os.getenv("REDIS_PASS"))
 
+if client.get('last_seen') is None:
+    client.set('last_seen', '1194877411671724066')
+    client.set('read', '53309254')
+
 
 def auto_follow():
     client.incr('read', 50)
