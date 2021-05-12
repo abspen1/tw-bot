@@ -129,9 +129,6 @@ def store_last_seen(last_seen):
     client.set('last_seen', str(last_seen))
     return
 
-#store_last_seen(FILE_NAME, '1194877411671724066')
-
-
 def reply():
     # print("Checking for any mentions")
     # print(time.ctime())
