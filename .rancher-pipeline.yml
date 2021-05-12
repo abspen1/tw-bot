@@ -6,7 +6,7 @@ stages:
       buildContext: .
       tag: cloud-bot:${CICD_EXECUTION_SEQUENCE}
     env:
-      PLUGIN_MTU: "1280"
+      PLUGIN_MTU: "1230"
   when:
     branch: {}
     event:
