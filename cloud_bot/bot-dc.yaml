@@ -20,8 +20,8 @@ spec:
           image: ${CICD_IMAGE}:v1.0
           imagePullPolicy: Always
           env:
-            - name: execution
-              value: ${CICD_EXECUTION_SEQUENCE}
+            - name: CICD_GIT_COMMIT
+              value: ${CICD_GIT_COMMIT}
             - name: CONSUMER_KEY
               valueFrom:
                 secretKeyRef:
